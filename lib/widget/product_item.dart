@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_clone/provider/product.dart';
 import 'package:shop_clone/screen/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -12,6 +14,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
 
     return 
     ClipRRect(
@@ -21,12 +24,14 @@ class ProductItem extends StatelessWidget {
       onTap: (() {
         Navigator.of(context).pushNamed(
           ProductDetailScreen.routeName,
-          arguments: id
+          arguments: product.id
         );
       }),
-      child: Image.network(imageUrl, fit: BoxFit.cover,),),
+      child: Image.network(product.imageUrl, fit: BoxFit.cover,),),
       footer: GridTileBar(
-        leading: IconButton(icon: Icon(Icons.favorite), onPressed: () { 
+        leading: 
+          IconButton(icon: Icon( product.isFavorite ? Icons.favorite : Icons.favorite_border), onPressed: () { 
+          product.toggleFavoriteState();
         },),
         title: Text(title, textAlign: TextAlign.center,), 
         backgroundColor: Colors.black54,
