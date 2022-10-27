@@ -14,32 +14,33 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    // final product = Provider.of<Product>(context);
 
     return 
-    ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child:  GridTile(
-      child: GestureDetector(
-      onTap: (() {
-        Navigator.of(context).pushNamed(
-          ProductDetailScreen.routeName,
-          arguments: product.id
-        );
-      }),
-      child: Image.network(product.imageUrl, fit: BoxFit.cover,),),
-      footer: GridTileBar(
-        leading: 
-          IconButton(icon: Icon( product.isFavorite ? Icons.favorite : Icons.favorite_border), onPressed: () { 
-          product.toggleFavoriteState();
-        },),
-        title: Text(title, textAlign: TextAlign.center,), 
-        backgroundColor: Colors.black54,
-        trailing: IconButton(icon: Icon(Icons.shopping_bag), onPressed: () {      
-        },)
-        ),
-    ),
+    Consumer<Product>(
+      builder: ((context, product, child) =>ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child:  GridTile(
+        child: GestureDetector(
+        onTap: (() {
+          Navigator.of(context).pushNamed(
+            ProductDetailScreen.routeName,
+            arguments: product.id
+          );
+        }),
+        child: Image.network(product.imageUrl, fit: BoxFit.cover,),),
+        footer: GridTileBar(
+          leading: 
+            IconButton(icon: Icon( product.isFavorite ? Icons.favorite : Icons.favorite_border), onPressed: () { 
+            product.toggleFavoriteState();
+          },),
+          title: Text(title, textAlign: TextAlign.center,), 
+          backgroundColor: Colors.black54,
+          trailing: IconButton(icon: Icon(Icons.shopping_bag), onPressed: () {      
+          },)
+          ),
+      ),
+      ) ),
     ) ;
-   
   }
 }
