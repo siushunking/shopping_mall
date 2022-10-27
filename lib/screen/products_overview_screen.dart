@@ -22,22 +22,21 @@ class _ProductsOverScreenState extends State<ProductsOverScreen> {
   var _showOnlyFavorites = false;
   @override
   Widget build(BuildContext context) {
-    final productsContainer = Provider.of<Products>(context);
+    //final productsContainer = Provider.of<Products>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('My shop'), 
       actions: <Widget>[
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
-              if(selectedValue == FilterOptions.Favorites){
               setState(() {
-                productsContainer.showFavoritesOnly();
-              });
-              print(selectedValue);
+                if(selectedValue == FilterOptions.Favorites){
+                _showOnlyFavorites = true;
+  
               }else if(selectedValue == FilterOptions.All) {
-                productsContainer.showAll();
+                 _showOnlyFavorites = false;
               }
-              
+              });          
             },
             itemBuilder: (_) => [
                PopupMenuItem(
@@ -51,7 +50,7 @@ class _ProductsOverScreenState extends State<ProductsOverScreen> {
             ],
           ),
         ],),
-      body: ProductsGrid(),
+      body: ProductsGrid(_showOnlyFavorites),
     );
   }
 }
